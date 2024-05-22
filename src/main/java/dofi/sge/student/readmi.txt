@@ -1,0 +1,3 @@
+* validar la creacion del estudiante
+    - Todos los campos esten llenos
+    - Validar si no hay curso existente o paralelo

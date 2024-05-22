@@ -1,0 +1,28 @@
+logging:
+  pattern:
+    dateformat: hh:mm
+  level:
+    org:
+      hibernate:
+        sql: debug
+
+server:
+  servlet:
+    context-path: /dofi
+
+spring:
+  main:
+    banner-mode: off
+  output:
+    ansi:
+      enabled: always
+  devtools:
+    restart:
+      poll-interval: 2s
+
+
+---
+spring:
+  profiles:
+    active: dev
+
