@@ -14,6 +14,6 @@ public class NotasRequest {
     private double noteGroupWorks;
     private double noteLessons;
     private double exam;
-    private Boolean status;
+    private ParcialEntity parcialId;
 
 }

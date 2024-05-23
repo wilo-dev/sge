@@ -13,7 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class QuimestreRequest {
 
-    private String nameQuimestre;
+    private String quimestre;
     private StudentEntity student;
     private Boolean status;
     private Set<ParcialEntity> parciales;

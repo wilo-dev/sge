@@ -18,30 +18,33 @@ import java.util.Date;
 @Table(name = "notas")
 public class NotasEntity extends AuditableEntity {
 
-    @Column(name = "note_task", nullable = false, length = 10)
-    private double noteTask;
+    @Column(name = "note_task", nullable = false)
+    private Double noteTask;
 
-    @Column(name = "note_group_work", nullable = false, length = 10)
-    private double noteGroupWork;
+    @Column(name = "note_group_work", nullable = false)
+    private Double noteGroupWork;
 
-    @Column(name = "note_lesson", nullable = false, length = 10)
-    private double noteLesson;
+    @Column(name = "note_lesson", nullable = false)
+    private Double noteLesson;
 
-    @Column(nullable = false, length = 10)
-    private double exam;
+    @Column(nullable = false)
+    private Double exam;
 
-    @Column(nullable = false, length = 20)
-    private double promedio;
+    @Column(nullable = false)
+    private Double promedio;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "parcial_id", nullable = false)
-    private ParcialEntity parcial;
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private ParcialEntity parcialId;
 
     public NotasEntity(NotasRequest data) {
         this.noteTask = data.getNoteTasks();
         this.noteGroupWork = data.getNoteGroupWorks();
         this.noteLesson = data.getNoteLessons();
         this.exam = data.getExam();
+        this.parcialId = data.getParcialId();
+        setPromedio(calcularPromedio());
     }
 
     public void updateDataNota(NotasRequest data) {
@@ -49,11 +52,13 @@ public class NotasEntity extends AuditableEntity {
         this.noteGroupWork = data.getNoteGroupWorks();
         this.noteLesson = data.getNoteLessons();
         this.exam = data.getExam();
+        this.parcialId = data.getParcialId();
         this.setUpdatedAt(new Date());
     }
 
-    public void calcularPromedio() {
-        this.promedio = (noteTask + noteGroupWork + noteLesson + exam) / 4;
+    public Double calcularPromedio() {
+
+        return this.promedio = (noteTask + noteGroupWork + noteLesson + exam) / 4;
     }
 
 

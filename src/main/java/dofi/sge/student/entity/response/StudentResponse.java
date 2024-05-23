@@ -17,8 +17,11 @@ public class StudentResponse {
     private String LastName;
     private String email;
     private String code;
+
+    // TODO: json infinito
     private String course;
     private String paralelo;
+
     private Boolean status;
     private Set<QuimestreResponse> quimestres;
 //    private List<NotasResponse> notas;
@@ -37,4 +40,4 @@ public class StudentResponse {
     }
 }
 
-//response lo q se muestra por postman o frontend
+//todo: response lo q se muestra por postman o frontend

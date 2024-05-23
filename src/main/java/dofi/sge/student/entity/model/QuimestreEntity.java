@@ -20,33 +20,46 @@ import java.util.Set;
 public class QuimestreEntity extends AuditableEntity {
 
     @Column(name = "nombre_quimestre", nullable = false, length = 20)
-    private String nameQuimestre;
+    private String quimestre;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
-    private StudentEntity student;
+    private StudentEntity studentId;
 
-    @OneToMany(mappedBy = "quimestre", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "quimestreId", cascade = CascadeType.ALL)
     private Set<ParcialEntity> parciales;
 
+    @Column(name = "promedio_quimestral", nullable = false)
+    private Double promedioQuimestral;
+
     public QuimestreEntity(QuimestreRequest data) {
-        this.nameQuimestre = data.getNameQuimestre();
-        this.student = data.getStudent();
+        this.quimestre = data.getQuimestre();
+        this.studentId = data.getStudent();
         this.parciales = data.getParciales();
+        this.promedioQuimestral = calcularPromedioQuimestral();
+
+    }
+
+    private Double calcularPromedioQuimestral() {
+        return parciales.stream()
+                .mapToDouble(ParcialEntity::getPromedio)
+                .average()
+                .orElse(0.0);
     }
 
     public void updateDataQuimestre(QuimestreRequest data) {
-        this.nameQuimestre = data.getNameQuimestre();
-        this.student = data.getStudent();
+        this.quimestre = data.getQuimestre();
+        this.studentId = data.getStudent();
         this.parciales = data.getParciales();
         this.setUpdatedAt(new Date());
     }
 
+
     @Override
     public String toString() {
         return "QuimestreEntity{" +
-                "nameQuimestre='" + nameQuimestre + '\'' +
-                ", student=" + student +
+                "nameQuimestre='" + quimestre + '\'' +
+                ", studentId=" + studentId +
                 ", parciales=" + parciales +
                 '}';
     }

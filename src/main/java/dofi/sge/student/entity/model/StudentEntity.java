@@ -33,7 +33,7 @@ public class StudentEntity extends AuditableEntity {
 //    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
 //    private List<NotasEntity> notas;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL)
     private Set<QuimestreEntity> quimestres;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -80,4 +80,4 @@ public class StudentEntity extends AuditableEntity {
                 '}';
     }
 }
-//entity datos q se guardan en la DB
+//TODO: entity datos q se guardan en la DB

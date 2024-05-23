@@ -16,6 +16,6 @@ public class ParcialRequest {
 
     private String nameParcial;
     private Boolean status;
-    private QuimestreEntity quimestre;
+    private QuimestreEntity quimestreId;
 
 }

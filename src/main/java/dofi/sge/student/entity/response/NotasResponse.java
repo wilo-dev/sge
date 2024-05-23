@@ -11,6 +11,7 @@ public class NotasResponse {
     private double noteLesson;
     private double exam;
     private double promedio;
+//    private String parcial;
 
 
     public NotasResponse(NotasEntity resp) {
@@ -20,5 +21,6 @@ public class NotasResponse {
         this.noteLesson = resp.getNoteLesson();
         this.exam = resp.getExam();
         this.promedio = resp.getPromedio();
+//        this.parcial = resp.getParcialId().getParcial();
     }
 }
