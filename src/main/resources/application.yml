@@ -19,8 +19,6 @@ spring:
   devtools:
     restart:
       poll-interval: 2s
-
-
 ---
 spring:
   profiles:

@@ -1,0 +1,786 @@
+2024-05-24T08:17:23.604-05:00  INFO 8856 --- [restartedMain] dofi.sge.SgeApplication                  : Starting SgeApplication using Java 17.0.10 with PID 8856 (D:\User\Escritorio\practice-java\proyects\sge\target\classes started by User in D:\User\Escritorio\practice-java\proyects\sge)
+2024-05-24T08:17:23.636-05:00 DEBUG 8856 --- [restartedMain] dofi.sge.SgeApplication                  : Running with Spring Boot v3.2.5, Spring v6.1.6
+2024-05-24T08:17:23.636-05:00  INFO 8856 --- [restartedMain] dofi.sge.SgeApplication                  : The following 1 profile is active: "dev"
+2024-05-24T08:17:29.268-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table notas 
+       drop 
+       foreign key FKoregc2mmhu3kaqfnm8nurt1wj
+2024-05-24T08:17:29.280-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table parciales 
+       drop 
+       foreign key FK8ctjsn2rq0qc501h6e3keq666
+2024-05-24T08:17:29.282-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table quimestres 
+       drop 
+       foreign key FKg7cwjuq246wlubwx6nultc2l6
+2024-05-24T08:17:29.284-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table roles 
+       drop 
+       foreign key FK97mxvrajhkq19dmvboprimeg1
+2024-05-24T08:17:29.286-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table students 
+       drop 
+       foreign key FK6jiqckumc6tm0h9otqbtqhgnr
+2024-05-24T08:17:29.288-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table students 
+       drop 
+       foreign key FK1dc7h5uxujwq6tuve51o7i2uk
+2024-05-24T08:17:29.290-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table tutorial_tags 
+       drop 
+       foreign key FKsdkwlpnw5i3b4i3x4flxtnakf
+2024-05-24T08:17:29.292-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table tutorial_tags 
+       drop 
+       foreign key FKhsdms8tahjb7i8pso32jbbjro
+2024-05-24T08:17:29.294-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists courses
+2024-05-24T08:17:29.303-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists notas
+2024-05-24T08:17:29.309-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists paralelos
+2024-05-24T08:17:29.314-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists parciales
+2024-05-24T08:17:29.318-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists quimestres
+2024-05-24T08:17:29.322-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists roles
+2024-05-24T08:17:29.327-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists students
+2024-05-24T08:17:29.332-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists tags
+2024-05-24T08:17:29.336-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists tutorial_tags
+2024-05-24T08:17:29.341-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists tutorials
+2024-05-24T08:17:29.345-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists users
+2024-05-24T08:17:29.355-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    create table courses (
+        created_at date,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        course varchar(50) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:17:29.392-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    create table notas (
+        created_at date,
+        exam float(53) not null,
+        note_group_work float(53) not null,
+        note_lesson float(53) not null,
+        note_task float(53) not null,
+        promedio float(53) not null,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        parcial_id bigint not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:17:29.433-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    create table paralelos (
+        created_at date,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        paralelo varchar(10) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:17:29.469-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    create table parciales (
+        created_at date,
+        promedio_parcial float(53) not null,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        quimestre_id bigint not null,
+        name_parcial varchar(20) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:17:29.510-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    create table quimestres (
+        created_at date,
+        promedio_quimestral float(53),
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        student_id bigint not null,
+        nombre_quimestre varchar(20) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:17:29.549-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    create table roles (
+        created_at date,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        user_id bigint not null,
+        rol varchar(50) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:17:29.607-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    create table students (
+        created_at date,
+        status bit,
+        updated_at date,
+        course_id bigint not null,
+        id bigint not null auto_increment,
+        paralelo_id bigint not null,
+        code varchar(50),
+        email varchar(225),
+        first_name varchar(225) not null,
+        last_name varchar(225) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:17:29.682-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    create table tags (
+        created_at date,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        name varchar(255),
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:17:29.745-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    create table tutorial_tags (
+        tag_id bigint not null,
+        tutorial_id bigint not null,
+        primary key (tag_id, tutorial_id)
+    ) engine=InnoDB
+2024-05-24T08:17:29.808-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    create table tutorials (
+        created_at date,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        description varchar(255),
+        published varchar(255),
+        title varchar(255),
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:17:29.846-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    create table users (
+        created_at date,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        email varchar(50) not null,
+        first_name varchar(50) not null,
+        last_name varchar(50) not null,
+        nick varchar(50) not null,
+        password varchar(255) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:17:29.882-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table students 
+       add constraint UK_e2rndfrsx22acpq2ty1caeuyw unique (email)
+2024-05-24T08:17:29.921-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table notas 
+       add constraint FKoregc2mmhu3kaqfnm8nurt1wj 
+       foreign key (parcial_id) 
+       references parciales (id) 
+       on delete cascade
+2024-05-24T08:17:30.025-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table parciales 
+       add constraint FK8ctjsn2rq0qc501h6e3keq666 
+       foreign key (quimestre_id) 
+       references quimestres (id) 
+       on delete cascade
+2024-05-24T08:17:30.134-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table quimestres 
+       add constraint FKg7cwjuq246wlubwx6nultc2l6 
+       foreign key (student_id) 
+       references students (id)
+2024-05-24T08:17:30.238-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table roles 
+       add constraint FK97mxvrajhkq19dmvboprimeg1 
+       foreign key (user_id) 
+       references users (id)
+2024-05-24T08:17:30.337-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table students 
+       add constraint FK6jiqckumc6tm0h9otqbtqhgnr 
+       foreign key (course_id) 
+       references courses (id) 
+       on delete cascade
+2024-05-24T08:17:30.445-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table students 
+       add constraint FK1dc7h5uxujwq6tuve51o7i2uk 
+       foreign key (paralelo_id) 
+       references paralelos (id) 
+       on delete cascade
+2024-05-24T08:17:30.561-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table tutorial_tags 
+       add constraint FKsdkwlpnw5i3b4i3x4flxtnakf 
+       foreign key (tag_id) 
+       references tags (id)
+2024-05-24T08:17:30.638-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table tutorial_tags 
+       add constraint FKhsdms8tahjb7i8pso32jbbjro 
+       foreign key (tutorial_id) 
+       references tutorials (id)
+2024-05-24T08:17:30.761-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : insert into courses (course, status, created_at, updated_at) values ('8vo', true, '2024-05-20', '2024-05-22')
+2024-05-24T08:17:30.771-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : insert into paralelos (paralelo, status, created_at, updated_at) values ('A', true, '2024-05-20', '2024-05-22')
+2024-05-24T08:17:30.778-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : insert into students (first_name, last_name, email, code, status, course_id, paralelo_id, created_at, updated_at) values ('Cristina lady', 'Velazquez ramirez', 'crislinalady@gmail.com', 'rt1254jh', true, 1, 1, '2024-05-20', '2024-05-22')
+2024-05-24T08:17:30.785-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : insert into quimestres (nombre_quimestre, student_id, promedio_quimestral, status, created_at, updated_at) values ('Q1', 1, true, 0.0, '2024-05-20', '2024-05-22')
+2024-05-24T08:17:30.793-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : insert into parciales (name_parcial, quimestre_id, status, promedio_parcial, created_at, updated_at) values ('Parcial_1', 1, true, 6.42, '2024-05-20', '2024-05-22')
+2024-05-24T08:17:30.800-05:00 DEBUG 8856 --- [restartedMain] org.hibernate.SQL                        : insert into notas (note_task, note_group_work, note_lesson, exam, promedio, parcial_id, status, created_at, updated_at) values (8.70, 5, 2, 10, 6.42, 1, true, '2024-05-20', '2024-05-22')
+2024-05-24T08:17:32.039-05:00  INFO 8856 --- [restartedMain] dofi.sge.SgeApplication                  : Started SgeApplication in 9.504 seconds (process running for 10.746)
+2024-05-24T08:23:49.158-05:00 DEBUG 8856 --- [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        se1_0.id,
+        se1_0.code,
+        se1_0.course_id,
+        se1_0.created_at,
+        se1_0.email,
+        se1_0.first_name,
+        se1_0.last_name,
+        se1_0.paralelo_id,
+        se1_0.status,
+        se1_0.updated_at 
+    from
+        students se1_0
+2024-05-24T08:23:49.215-05:00 DEBUG 8856 --- [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ce1_0.id,
+        ce1_0.course,
+        ce1_0.created_at,
+        ce1_0.status,
+        ce1_0.updated_at 
+    from
+        courses ce1_0 
+    where
+        ce1_0.id=?
+2024-05-24T08:23:49.222-05:00 DEBUG 8856 --- [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.paralelo,
+        pe1_0.status,
+        pe1_0.updated_at 
+    from
+        paralelos pe1_0 
+    where
+        pe1_0.id=?
+2024-05-24T08:23:49.231-05:00 DEBUG 8856 --- [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        q1_0.student_id,
+        q1_0.id,
+        q1_0.created_at,
+        q1_0.promedio_quimestral,
+        q1_0.nombre_quimestre,
+        q1_0.status,
+        q1_0.updated_at 
+    from
+        quimestres q1_0 
+    where
+        q1_0.student_id=?
+2024-05-24T08:23:49.238-05:00 DEBUG 8856 --- [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        p1_0.quimestre_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.name_parcial,
+        p1_0.promedio_parcial,
+        p1_0.status,
+        p1_0.updated_at 
+    from
+        parciales p1_0 
+    where
+        p1_0.quimestre_id=?
+2024-05-24T08:23:49.242-05:00 DEBUG 8856 --- [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        n1_0.parcial_id,
+        n1_0.id,
+        n1_0.created_at,
+        n1_0.exam,
+        n1_0.note_group_work,
+        n1_0.note_lesson,
+        n1_0.note_task,
+        n1_0.promedio,
+        n1_0.status,
+        n1_0.updated_at 
+    from
+        notas n1_0 
+    where
+        n1_0.parcial_id=?
+2024-05-24T08:24:24.275-05:00  INFO 8856 --- [http-nio-8080-exec-3] d.sge.student.service.ParcialesService   : ParcialRequest(nameParcial=Parcial_2, status=null, quimestreId=QuimestreEntity{nameQuimestre='null', studentId=null, parciales=null})
+2024-05-24T08:24:24.296-05:00 DEBUG 8856 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.name_parcial,
+        pe1_0.promedio_parcial,
+        pe1_0.quimestre_id,
+        pe1_0.status,
+        pe1_0.updated_at 
+    from
+        parciales pe1_0 
+    where
+        pe1_0.name_parcial=?
+2024-05-24T08:24:24.299-05:00 ERROR 8856 --- [http-nio-8080-exec-3] d.sge.student.service.ParcialesService   : Error de acceso a datos: 
+
+java.lang.NullPointerException: Cannot invoke "java.util.Set.stream()" because "this.notas" is null
+	at dofi.sge.student.entity.model.ParcialEntity.calcularPromedioParcial(ParcialEntity.java:56) ~[classes/:na]
+	at dofi.sge.student.entity.model.ParcialEntity.<init>(ParcialEntity.java:42) ~[classes/:na]
+	at dofi.sge.student.service.ParcialesService.createParciales(ParcialesService.java:58) ~[classes/:na]
+	at dofi.sge.student.controller.ParcialesController.createParciales(ParcialesController.java:36) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590) ~[tomcat-embed-core-10.1.20.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.20.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1736) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2024-05-24T08:44:04.352-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table notas 
+       drop 
+       foreign key FKoregc2mmhu3kaqfnm8nurt1wj
+2024-05-24T08:44:04.375-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table parciales 
+       drop 
+       foreign key FK8ctjsn2rq0qc501h6e3keq666
+2024-05-24T08:44:04.398-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table quimestres 
+       drop 
+       foreign key FKg7cwjuq246wlubwx6nultc2l6
+2024-05-24T08:44:04.420-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table roles 
+       drop 
+       foreign key FK97mxvrajhkq19dmvboprimeg1
+2024-05-24T08:44:04.438-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table students 
+       drop 
+       foreign key FK6jiqckumc6tm0h9otqbtqhgnr
+2024-05-24T08:44:04.460-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table students 
+       drop 
+       foreign key FK1dc7h5uxujwq6tuve51o7i2uk
+2024-05-24T08:44:04.482-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table tutorial_tags 
+       drop 
+       foreign key FKsdkwlpnw5i3b4i3x4flxtnakf
+2024-05-24T08:44:04.503-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table tutorial_tags 
+       drop 
+       foreign key FKhsdms8tahjb7i8pso32jbbjro
+2024-05-24T08:44:04.517-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists courses
+2024-05-24T08:44:04.545-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists notas
+2024-05-24T08:44:04.574-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists paralelos
+2024-05-24T08:44:04.613-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists parciales
+2024-05-24T08:44:04.663-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists quimestres
+2024-05-24T08:44:04.723-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists roles
+2024-05-24T08:44:04.768-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists students
+2024-05-24T08:44:04.796-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists tags
+2024-05-24T08:44:04.823-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists tutorial_tags
+2024-05-24T08:44:04.845-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists tutorials
+2024-05-24T08:44:04.872-05:00 DEBUG 8856 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists users
+2024-05-24T08:44:13.786-05:00  INFO 10120 --- [restartedMain] dofi.sge.SgeApplication                  : Starting SgeApplication using Java 17.0.10 with PID 10120 (D:\User\Escritorio\practice-java\proyects\sge\target\classes started by User in D:\User\Escritorio\practice-java\proyects\sge)
+2024-05-24T08:44:13.788-05:00 DEBUG 10120 --- [restartedMain] dofi.sge.SgeApplication                  : Running with Spring Boot v3.2.5, Spring v6.1.6
+2024-05-24T08:44:13.789-05:00  INFO 10120 --- [restartedMain] dofi.sge.SgeApplication                  : The following 1 profile is active: "dev"
+2024-05-24T08:44:20.051-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table notas 
+       drop 
+       foreign key FKoregc2mmhu3kaqfnm8nurt1wj
+2024-05-24T08:44:20.069-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table parciales 
+       drop 
+       foreign key FK8ctjsn2rq0qc501h6e3keq666
+2024-05-24T08:44:20.072-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table quimestres 
+       drop 
+       foreign key FKg7cwjuq246wlubwx6nultc2l6
+2024-05-24T08:44:20.075-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table roles 
+       drop 
+       foreign key FK97mxvrajhkq19dmvboprimeg1
+2024-05-24T08:44:20.078-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table students 
+       drop 
+       foreign key FK6jiqckumc6tm0h9otqbtqhgnr
+2024-05-24T08:44:20.081-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table students 
+       drop 
+       foreign key FK1dc7h5uxujwq6tuve51o7i2uk
+2024-05-24T08:44:20.084-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table tutorial_tags 
+       drop 
+       foreign key FKsdkwlpnw5i3b4i3x4flxtnakf
+2024-05-24T08:44:20.087-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table tutorial_tags 
+       drop 
+       foreign key FKhsdms8tahjb7i8pso32jbbjro
+2024-05-24T08:44:20.090-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists courses
+2024-05-24T08:44:20.101-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists notas
+2024-05-24T08:44:20.107-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists paralelos
+2024-05-24T08:44:20.113-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists parciales
+2024-05-24T08:44:20.119-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists quimestres
+2024-05-24T08:44:20.125-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists roles
+2024-05-24T08:44:20.130-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists students
+2024-05-24T08:44:20.136-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists tags
+2024-05-24T08:44:20.142-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists tutorial_tags
+2024-05-24T08:44:20.148-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists tutorials
+2024-05-24T08:44:20.154-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    drop table if exists users
+2024-05-24T08:44:20.167-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    create table courses (
+        created_at date,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        course varchar(50) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:44:20.212-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    create table notas (
+        created_at date,
+        examen float(53),
+        note_group_work float(53),
+        note_lesson float(53),
+        note_task float(53),
+        promedio_nota float(53),
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        parcial_id bigint not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:44:20.255-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    create table paralelos (
+        created_at date,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        paralelo varchar(10) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:44:20.297-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    create table parciales (
+        created_at date,
+        promedio_parcial float(53) not null,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        quimestre_id bigint not null,
+        name_parcial varchar(20) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:44:20.335-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    create table quimestres (
+        created_at date,
+        promedio_quimestral float(53),
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        student_id bigint not null,
+        nombre_quimestre varchar(20) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:44:20.382-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    create table roles (
+        created_at date,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        user_id bigint not null,
+        rol varchar(50) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:44:20.424-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    create table students (
+        created_at date,
+        status bit,
+        updated_at date,
+        course_id bigint not null,
+        id bigint not null auto_increment,
+        paralelo_id bigint not null,
+        code varchar(50),
+        email varchar(225),
+        first_name varchar(225) not null,
+        last_name varchar(225) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:44:20.462-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    create table tags (
+        created_at date,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        name varchar(255),
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:44:20.503-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    create table tutorial_tags (
+        tag_id bigint not null,
+        tutorial_id bigint not null,
+        primary key (tag_id, tutorial_id)
+    ) engine=InnoDB
+2024-05-24T08:44:20.543-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    create table tutorials (
+        created_at date,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        description varchar(255),
+        published varchar(255),
+        title varchar(255),
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:44:20.585-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    create table users (
+        created_at date,
+        status bit,
+        updated_at date,
+        id bigint not null auto_increment,
+        email varchar(50) not null,
+        first_name varchar(50) not null,
+        last_name varchar(50) not null,
+        nick varchar(50) not null,
+        password varchar(255) not null,
+        primary key (id)
+    ) engine=InnoDB
+2024-05-24T08:44:20.623-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table students 
+       add constraint UK_e2rndfrsx22acpq2ty1caeuyw unique (email)
+2024-05-24T08:44:20.676-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table notas 
+       add constraint FKoregc2mmhu3kaqfnm8nurt1wj 
+       foreign key (parcial_id) 
+       references parciales (id) 
+       on delete cascade
+2024-05-24T08:44:20.862-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table parciales 
+       add constraint FK8ctjsn2rq0qc501h6e3keq666 
+       foreign key (quimestre_id) 
+       references quimestres (id) 
+       on delete cascade
+2024-05-24T08:44:21.039-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table quimestres 
+       add constraint FKg7cwjuq246wlubwx6nultc2l6 
+       foreign key (student_id) 
+       references students (id)
+2024-05-24T08:44:21.148-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table roles 
+       add constraint FK97mxvrajhkq19dmvboprimeg1 
+       foreign key (user_id) 
+       references users (id)
+2024-05-24T08:44:21.256-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table students 
+       add constraint FK6jiqckumc6tm0h9otqbtqhgnr 
+       foreign key (course_id) 
+       references courses (id) 
+       on delete cascade
+2024-05-24T08:44:21.383-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table students 
+       add constraint FK1dc7h5uxujwq6tuve51o7i2uk 
+       foreign key (paralelo_id) 
+       references paralelos (id) 
+       on delete cascade
+2024-05-24T08:44:21.498-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table tutorial_tags 
+       add constraint FKsdkwlpnw5i3b4i3x4flxtnakf 
+       foreign key (tag_id) 
+       references tags (id)
+2024-05-24T08:44:21.582-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table tutorial_tags 
+       add constraint FKhsdms8tahjb7i8pso32jbbjro 
+       foreign key (tutorial_id) 
+       references tutorials (id)
+2024-05-24T08:44:21.693-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : insert into courses (course, status, created_at, updated_at) values ('8vo', true, '2024-05-20', '2024-05-22')
+2024-05-24T08:44:21.700-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : insert into paralelos (paralelo, status, created_at, updated_at) values ('A', true, '2024-05-20', '2024-05-22')
+2024-05-24T08:44:21.707-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : insert into students (first_name, last_name, email, code, status, course_id, paralelo_id, created_at, updated_at) values ('Cristina lady', 'Velazquez ramirez', 'crislinalady@gmail.com', 'rt1254jh', true, 1, 1, '2024-05-20', '2024-05-22')
+2024-05-24T08:44:21.716-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : insert into quimestres (nombre_quimestre, student_id, promedio_quimestral, status, created_at, updated_at) values ('Q1', 1, true, 0.0, '2024-05-20', '2024-05-22')
+2024-05-24T08:44:21.722-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : insert into parciales (name_parcial, quimestre_id, status, promedio_parcial, created_at, updated_at) values ('Parcial_1', 1, true, 6.42, '2024-05-20', '2024-05-22')
+2024-05-24T08:44:21.731-05:00 DEBUG 10120 --- [restartedMain] org.hibernate.SQL                        : insert into notas (note_task, note_group_work, note_lesson, exam, promedio, parcial_id, status, created_at, updated_at) values (8.70, 5, 2, 10, 6.42, 1, true, '2024-05-20', '2024-05-22')
+2024-05-24T08:44:23.196-05:00  INFO 10120 --- [restartedMain] dofi.sge.SgeApplication                  : Started SgeApplication in 10.166 seconds (process running for 11.588)
+2024-05-24T08:44:53.231-05:00  INFO 10120 --- [http-nio-8080-exec-1] d.sge.student.service.ParcialesService   : ParcialRequest(nameParcial=Parcial_2, status=null, quimestreId=QuimestreEntity{nameQuimestre='null', studentId=null, parciales=null})
+2024-05-24T08:44:53.403-05:00 DEBUG 10120 --- [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.name_parcial,
+        pe1_0.promedio_parcial,
+        pe1_0.quimestre_id,
+        pe1_0.status,
+        pe1_0.updated_at 
+    from
+        parciales pe1_0 
+    where
+        pe1_0.name_parcial=?
+2024-05-24T08:44:53.425-05:00 ERROR 10120 --- [http-nio-8080-exec-1] d.sge.student.service.ParcialesService   : Error de acceso a datos: 
+
+java.lang.NullPointerException: Cannot invoke "java.util.Set.stream()" because "this.notas" is null
+	at dofi.sge.student.entity.model.ParcialEntity.calcularPromedioParcial(ParcialEntity.java:56) ~[classes/:na]
+	at dofi.sge.student.entity.model.ParcialEntity.<init>(ParcialEntity.java:42) ~[classes/:na]
+	at dofi.sge.student.service.ParcialesService.createParciales(ParcialesService.java:58) ~[classes/:na]
+	at dofi.sge.student.controller.ParcialesController.createParciales(ParcialesController.java:36) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:926) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:831) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590) ~[tomcat-embed-core-10.1.20.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.6.jar:6.1.6]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.20.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:206) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.6.jar:6.1.6]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:175) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:150) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1736) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.20.jar:10.1.20]
+	at java.base/java.lang.Thread.run(Thread.java:840) ~[na:na]
+
+2024-05-24T08:46:28.164-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table notas 
+       drop 
+       foreign key FKoregc2mmhu3kaqfnm8nurt1wj
+2024-05-24T08:46:28.192-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table parciales 
+       drop 
+       foreign key FK8ctjsn2rq0qc501h6e3keq666
+2024-05-24T08:46:28.212-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table quimestres 
+       drop 
+       foreign key FKg7cwjuq246wlubwx6nultc2l6
+2024-05-24T08:46:28.234-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table roles 
+       drop 
+       foreign key FK97mxvrajhkq19dmvboprimeg1
+2024-05-24T08:46:28.258-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table students 
+       drop 
+       foreign key FK6jiqckumc6tm0h9otqbtqhgnr
+2024-05-24T08:46:28.279-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table students 
+       drop 
+       foreign key FK1dc7h5uxujwq6tuve51o7i2uk
+2024-05-24T08:46:28.303-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table tutorial_tags 
+       drop 
+       foreign key FKsdkwlpnw5i3b4i3x4flxtnakf
+2024-05-24T08:46:28.319-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    alter table tutorial_tags 
+       drop 
+       foreign key FKhsdms8tahjb7i8pso32jbbjro
+2024-05-24T08:46:28.337-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists courses
+2024-05-24T08:46:28.400-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists notas
+2024-05-24T08:46:28.447-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists paralelos
+2024-05-24T08:46:28.470-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists parciales
+2024-05-24T08:46:28.496-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists quimestres
+2024-05-24T08:46:28.520-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists roles
+2024-05-24T08:46:28.551-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists students
+2024-05-24T08:46:28.575-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists tags
+2024-05-24T08:46:28.599-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists tutorial_tags
+2024-05-24T08:46:28.624-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists tutorials
+2024-05-24T08:46:28.645-05:00 DEBUG 10120 --- [SpringApplicationShutdownHook] org.hibernate.SQL                        : 
+    drop table if exists users

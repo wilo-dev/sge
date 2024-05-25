@@ -37,7 +37,8 @@ public class CourseService {
             return outPut.ok(MessageEnum.OK.getCode(), MessageEnum.OK.getMensaje(), courseResponses);
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }
@@ -58,7 +59,8 @@ public class CourseService {
             return outPut.ok(MessageEnum.CREATE.getCode(), MessageEnum.CREATE.getMensaje(), null);
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }

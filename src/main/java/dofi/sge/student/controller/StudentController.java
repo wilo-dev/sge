@@ -58,6 +58,7 @@ public class StudentController {
             out = studentService.getAllStudents();
             return new ResponseEntity<>(out, out.getCode());
         } catch (Exception e) {
+            log.error(e.getMessage());
             out = new OutputEntity<List<StudentResponse>>().error();
             return new ResponseEntity<>(out, out.getCode());
         }
@@ -70,6 +71,7 @@ public class StudentController {
             out = studentService.getStudentById(id);
             return new ResponseEntity<>(out, out.getCode());
         } catch (Exception e) {
+            log.error(e.getMessage());
             out = new OutputEntity<StudentResponse>().error();
             return new ResponseEntity<>(out, out.getCode());
         }
@@ -82,6 +84,7 @@ public class StudentController {
             out = studentService.createStudent(data);
             return new ResponseEntity<>(out, out.getCode());
         } catch (Exception e) {
+            log.error(e.getMessage());
             out = new OutputEntity<String>().error();
             return new ResponseEntity<>(out, out.getCode());
         }
@@ -94,6 +97,7 @@ public class StudentController {
             out = studentService.deleteStudent(id);
             return new ResponseEntity<>(out, out.getCode());
         } catch (Exception e) {
+            log.error(e.getMessage());
             out = new OutputEntity<String>().error();
             return new ResponseEntity<>(out, out.getCode());
         }
@@ -106,6 +110,7 @@ public class StudentController {
             out = studentService.updateStudent(data, id);
             return new ResponseEntity<>(out, out.getCode());
         } catch (Exception e) {
+            log.error(e.getMessage());
             out = new OutputEntity<String>().error();
             return new ResponseEntity<>(out, out.getCode());
         }
@@ -118,6 +123,7 @@ public class StudentController {
             out = studentService.updateStudentEnabled(data, id);
             return new ResponseEntity<>(out, out.getCode());
         } catch (Exception e) {
+            log.error(e.getMessage());
             out = new OutputEntity<String>().error();
             return new ResponseEntity<>(out, out.getCode());
         }

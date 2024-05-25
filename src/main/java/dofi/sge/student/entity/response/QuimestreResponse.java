@@ -13,13 +13,17 @@ public class QuimestreResponse {
 
     private String quimestre;
 
-//    private StudentResponse student;
+    private Double promedioQuimestral;
 
     private Set<ParcialResponse> parciales;
+
+    //    private StudentResponse student;
+
 
     public QuimestreResponse(QuimestreEntity resp) {
         this.id = resp.getId();
         this.quimestre = resp.getQuimestre();
+        this.promedioQuimestral = resp.getPromedioQuimestral();
         this.parciales = resp.getParciales().stream().map(ParcialResponse::new).collect(Collectors.toSet());
     }
 }

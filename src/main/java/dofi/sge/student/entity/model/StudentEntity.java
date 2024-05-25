@@ -47,22 +47,26 @@ public class StudentEntity extends AuditableEntity {
     private ParaleloEntity paraleloId;
 
     //    request es lo que envio del boby de postman
-    public StudentEntity(StudentRequest data) {
+    public StudentEntity(StudentRequest data, CoursesEntity courseId, ParaleloEntity paraleloId) {
         this.firstName = data.getFirstName();
         this.lastName = data.getLastName();
         this.email = data.getEmail();
         this.code = data.getCode();
-        this.courseId = data.getCourseId();
-        this.paraleloId = data.getParaleloId();
+        this.courseId = courseId;
+        this.paraleloId = paraleloId;
+//        this.courseId = data.getCourseId();
+//        this.paraleloId = data.getParaleloId();
 //        this.setStatus(true);
     }
 
-    public void updateData(StudentRequest data) {
+    public void updateData(StudentRequest data, CoursesEntity courseId, ParaleloEntity paraleloId) {
         this.firstName = data.getFirstName();
         this.lastName = data.getLastName();
         this.email = data.getEmail();
-        this.courseId = data.getCourseId();
-        this.paraleloId = data.getParaleloId();
+        this.courseId = courseId;
+        this.paraleloId = paraleloId;
+//        this.courseId = data.getCourseId();
+//        this.paraleloId = data.getParaleloId();
         this.setUpdatedAt(new Date());
     }
 

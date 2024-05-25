@@ -13,6 +13,6 @@ import java.util.List;
 public class CourseRequest {
     private String course;
     private Boolean status;
-
+    
 //    private List<StudentEntity> students;
 }

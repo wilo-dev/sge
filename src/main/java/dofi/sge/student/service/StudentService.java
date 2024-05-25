@@ -1,8 +1,13 @@
 package dofi.sge.student.service;
 
+import dofi.sge.student.entity.model.CoursesEntity;
+import dofi.sge.student.entity.model.ParaleloEntity;
+import dofi.sge.student.entity.model.ParcialEntity;
 import dofi.sge.student.entity.model.StudentEntity;
 import dofi.sge.student.entity.request.StudentRequest;
 import dofi.sge.student.entity.response.StudentResponse;
+import dofi.sge.student.repository.CourseRepository;
+import dofi.sge.student.repository.ParaleloRepository;
 import dofi.sge.student.repository.StudentRepository;
 import dofi.sge.util.entity.OutputEntity;
 import dofi.sge.util.enums.MessageEnum;
@@ -25,6 +30,12 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private ParaleloRepository paraleloRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
+
     public OutputEntity<List<StudentResponse>> getAllStudents() {
         OutputEntity<List<StudentResponse>> outPut = new OutputEntity<>();
         try {
@@ -36,7 +47,8 @@ public class StudentService {
             return outPut.ok(MessageEnum.OK.getCode(), MessageEnum.OK.getMensaje(), studentResponses);
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }
@@ -53,7 +65,8 @@ public class StudentService {
             return outPut.ok(MessageEnum.OK.getCode(), MessageEnum.OK.getMensaje(), studentResponses);
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }
@@ -71,7 +84,8 @@ public class StudentService {
             return outPut.ok(MessageEnum.OK.getCode(), MessageEnum.OK.getMensaje(), studentResponses);
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }
@@ -88,7 +102,8 @@ public class StudentService {
             return outPut.ok(MessageEnum.OK.getCode(), MessageEnum.OK.getMensaje(), studentResponses);
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }
@@ -105,7 +120,8 @@ public class StudentService {
             }
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }
@@ -113,6 +129,16 @@ public class StudentService {
     public OutputEntity<String> createStudent(StudentRequest data) {
         OutputEntity<String> outPut = new OutputEntity<>();
         try {
+            // TODO: obteniendo los id de paralelo y course
+            Optional<ParaleloEntity> paraleloOptional = paraleloRepository.findById(data.getParaleloId());
+            Optional<CoursesEntity> courseOptional = courseRepository.findById(data.getParaleloId());
+            if (paraleloOptional.isEmpty()) {
+                throw new MyException(404, "El paraleo con el ID especificado no existe");
+            }
+            if (courseOptional.isEmpty()) {
+                throw new MyException(404, "El curso con el ID especificado no existe");
+            }
+
 //            TODO: validar q los campos no esten vacios
 //            if (data.toString().trim().isEmpty())
 //                throw new MyException(MessageEnum.NO_Empty_fields.getCode(), MessageEnum.NO_Empty_fields.getMensaje());
@@ -126,13 +152,17 @@ public class StudentService {
             if (!email.isEmpty()) {
                 throw new MyException(MessageEnum.CORREO_UNICO.getCode(), MessageEnum.CORREO_UNICO.getMensaje());
             }
-            StudentEntity studentEntity = new StudentEntity(data);
+
+            CoursesEntity cursoId = courseOptional.get();
+            ParaleloEntity paraleloId = paraleloOptional.get();
+            StudentEntity studentEntity = new StudentEntity(data, cursoId, paraleloId);
             // TODO: save
             studentRepository.save(studentEntity);
             return outPut.ok(MessageEnum.CREATE.getCode(), MessageEnum.CREATE.getMensaje(), null);
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }
@@ -152,6 +182,7 @@ public class StudentService {
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }
@@ -159,12 +190,24 @@ public class StudentService {
     public OutputEntity<String> updateStudent(StudentRequest data, Long id) {
         OutputEntity<String> outPut = new OutputEntity<>();
         try {
+            // TODO: obteniendo los id de paralelo y course
+            Optional<ParaleloEntity> paraleloOptional = paraleloRepository.findById(data.getParaleloId());
+            Optional<CoursesEntity> courseOptional = courseRepository.findById(data.getParaleloId());
+            if (paraleloOptional.isEmpty()) {
+                throw new MyException(404, "El paraleo con el ID especificado no existe");
+            }
+            if (courseOptional.isEmpty()) {
+                throw new MyException(404, "El curso con el ID especificado no existe");
+            }
+
             Optional<StudentEntity> existStudent = studentRepository.findByIdAndStatus(id, true);
             if (existStudent.isPresent()) {
 
+                CoursesEntity cursoId = courseOptional.get();
+                ParaleloEntity paraleloId = paraleloOptional.get();
                 // TODO: update data
                 StudentEntity student = existStudent.get();
-                student.updateData(data);
+                student.updateData(data, cursoId, paraleloId);
                 studentRepository.save(student);
                 return outPut.ok(MessageEnum.UPDATE.getCode(), MessageEnum.UPDATE.getMensaje(), null);
             } else {
@@ -173,6 +216,7 @@ public class StudentService {
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }
@@ -193,6 +237,7 @@ public class StudentService {
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
         } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }

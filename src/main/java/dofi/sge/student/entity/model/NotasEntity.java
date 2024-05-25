@@ -2,8 +2,10 @@ package dofi.sge.student.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dofi.sge.student.entity.request.NotasRequest;
+import dofi.sge.util.RangoNota;
 import dofi.sge.util.entity.AuditableEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -18,19 +20,27 @@ import java.util.Date;
 @Table(name = "notas")
 public class NotasEntity extends AuditableEntity {
 
-    @Column(name = "note_task", nullable = false)
+    @RangoNota
+    @NotNull(message = "noteTask no puede ser nulo")
+    @Column(name = "note_task")
     private Double noteTask;
 
-    @Column(name = "note_group_work", nullable = false)
+    @RangoNota
+    @NotNull(message = "noteGroupWork no puede ser nulo")
+    @Column(name = "note_group_work")
     private Double noteGroupWork;
 
-    @Column(name = "note_lesson", nullable = false)
+    @RangoNota
+    @NotNull(message = "noteLesson no puede ser nulo")
+    @Column(name = "note_lesson")
     private Double noteLesson;
 
-    @Column(nullable = false)
+    @RangoNota
+    @NotNull(message = "exam no puede ser nulo")
+    @Column(name = "examen")
     private Double exam;
 
-    @Column(nullable = false)
+    @Column(name = "promedio_nota")
     private Double promedio;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -38,13 +48,13 @@ public class NotasEntity extends AuditableEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private ParcialEntity parcialId;
 
-    public NotasEntity(NotasRequest data) {
+    public NotasEntity(NotasRequest data, ParcialEntity parcialId) {
         this.noteTask = data.getNoteTasks();
         this.noteGroupWork = data.getNoteGroupWorks();
         this.noteLesson = data.getNoteLessons();
         this.exam = data.getExam();
-        this.parcialId = data.getParcialId();
-        setPromedio(calcularPromedio());
+        this.parcialId = parcialId;
+        this.promedio = calcularPromedio();
     }
 
     public void updateDataNota(NotasRequest data) {
@@ -52,19 +62,12 @@ public class NotasEntity extends AuditableEntity {
         this.noteGroupWork = data.getNoteGroupWorks();
         this.noteLesson = data.getNoteLessons();
         this.exam = data.getExam();
-        this.parcialId = data.getParcialId();
+        this.promedio = calcularPromedio();
         this.setUpdatedAt(new Date());
     }
 
+    @Transient
     public Double calcularPromedio() {
-
         return this.promedio = (noteTask + noteGroupWork + noteLesson + exam) / 4;
     }
-
-
-//    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "student_id", nullable = false)
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    private StudentEntity student;
-//
 }

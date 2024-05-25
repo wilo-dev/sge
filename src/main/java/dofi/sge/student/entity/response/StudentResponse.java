@@ -14,7 +14,7 @@ public class StudentResponse {
 
     private Long id;
     private String firstName;
-    private String LastName;
+    private String lastName;
     private String email;
     private String code;
 
@@ -29,7 +29,7 @@ public class StudentResponse {
     public StudentResponse(StudentEntity resp) {
         this.id = resp.getId();
         this.firstName = resp.getFirstName();
-        this.LastName = resp.getLastName();
+        this.lastName = resp.getLastName();
         this.email = resp.getEmail();
         this.code = resp.getCode();
         this.course = resp.getCourseId().getCourse();

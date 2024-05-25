@@ -14,7 +14,7 @@ import java.util.Set;
 public class QuimestreRequest {
 
     private String quimestre;
-    private StudentEntity student;
+    private StudentEntity studentId;
     private Boolean status;
     private Set<ParcialEntity> parciales;
 

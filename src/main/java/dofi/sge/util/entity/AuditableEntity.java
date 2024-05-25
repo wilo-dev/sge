@@ -27,7 +27,7 @@ public class AuditableEntity implements Serializable {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @Column(nullable = false)
+    @Column()
     private Boolean status = true;
 
     @PrePersist

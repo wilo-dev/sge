@@ -18,15 +18,18 @@ public class ParcialResponse {
 
     private String nameParcial;
 
-    private String quimestre;
+//    private String quimestre;
 
     private Set<NotasResponse> notas;
+
+    private Double promedioParcial;
+
 
     public ParcialResponse(ParcialEntity resp) {
         this.id = resp.getId();
         this.nameParcial = resp.getParcial();
-        this.quimestre = resp.getQuimestreId().getQuimestre();
-//        this.quimestre = resp.getQuimestreId();
+//        this.quimestre = resp.getQuimestreId().getQuimestre();
+        this.promedioParcial = resp.getPromedioParcial();
         this.notas = resp.getNotas().stream().map(NotasResponse::new).collect(Collectors.toSet());
     }
 }

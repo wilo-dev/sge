@@ -8,6 +8,7 @@ import dofi.sge.util.entity.OutputEntity;
 import dofi.sge.util.enums.MessageEnum;
 import dofi.sge.util.enums.MessageParalelo;
 import dofi.sge.util.exception.MyException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ParaleloService {
 
@@ -32,7 +34,8 @@ public class ParaleloService {
             return outPut.ok(MessageEnum.OK.getCode(), MessageEnum.OK.getMensaje(), paraleloResponses);
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }
@@ -52,7 +55,8 @@ public class ParaleloService {
             return outPut.ok(MessageEnum.CREATE.getCode(), MessageEnum.CREATE.getMensaje(), null);
         } catch (MyException e) {
             return outPut.error(e.getCode(), e.getMessages(), null);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
+            log.error(e.getMessage());
             return outPut.error();
         }
     }

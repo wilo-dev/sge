@@ -1,8 +1,6 @@
 package dofi.sge.student.entity.request;
 
 import dofi.sge.student.entity.model.ParcialEntity;
-import dofi.sge.util.entity.AuditableEntity;
-import jakarta.persistence.*;
 import lombok.*;
 
 @Data
@@ -14,6 +12,8 @@ public class NotasRequest {
     private double noteGroupWorks;
     private double noteLessons;
     private double exam;
-    private ParcialEntity parcialId;
+    private Boolean status;
+    private Long parcialId;
+//    private ParcialEntity parcialId;
 
 }

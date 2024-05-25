@@ -7,6 +7,7 @@ import dofi.sge.student.entity.response.NotasResponse;
 import dofi.sge.student.service.CourseService;
 import dofi.sge.student.service.NotaService;
 import dofi.sge.util.entity.OutputEntity;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class NotaController {
 
 
     @PostMapping
-    public ResponseEntity<OutputEntity<String>> createNota(@RequestBody NotasRequest data) {
+    public ResponseEntity<OutputEntity<String>> createNota(@Valid @RequestBody NotasRequest data) {
         OutputEntity<String> out = new OutputEntity<>();
         try {
             out = notaService.createNota(data);

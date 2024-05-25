@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,34 +27,43 @@ public class QuimestreEntity extends AuditableEntity {
     @JoinColumn(name = "student_id", nullable = false)
     private StudentEntity studentId;
 
-    @OneToMany(mappedBy = "quimestreId", cascade = CascadeType.ALL)
-    private Set<ParcialEntity> parciales;
+    @OneToMany(mappedBy = "quimestreId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ParcialEntity> parciales = new HashSet<>();
 
-    @Column(name = "promedio_quimestral", nullable = false)
+    @Column(name = "promedio_quimestral")
     private Double promedioQuimestral;
 
     public QuimestreEntity(QuimestreRequest data) {
         this.quimestre = data.getQuimestre();
-        this.studentId = data.getStudent();
-        this.parciales = data.getParciales();
-        this.promedioQuimestral = calcularPromedioQuimestral();
-
-    }
-
-    private Double calcularPromedioQuimestral() {
-        return parciales.stream()
-                .mapToDouble(ParcialEntity::getPromedio)
-                .average()
-                .orElse(0.0);
+        this.studentId = data.getStudentId();
+        if (data.getParciales() != null) {
+            this.parciales = data.getParciales();
+            this.promedioQuimestral = calcularPromedioQuimestral();
+        }
     }
 
     public void updateDataQuimestre(QuimestreRequest data) {
         this.quimestre = data.getQuimestre();
-        this.studentId = data.getStudent();
-        this.parciales = data.getParciales();
+        this.studentId = data.getStudentId();
+        if (data.getParciales() != null) {
+            this.parciales = data.getParciales();
+            this.promedioQuimestral = calcularPromedioQuimestral();
+        }
         this.setUpdatedAt(new Date());
     }
 
+    @Transient
+    public Double calcularPromedioQuimestral() {
+        return parciales.stream()
+                .mapToDouble(ParcialEntity::calcularPromedioParcial)
+                .average()
+                .orElse(0.0);
+    }
+
+    public void setParciales(Set<ParcialEntity> parciales) {
+        this.parciales = parciales;
+        this.promedioQuimestral = calcularPromedioQuimestral();
+    }
 
     @Override
     public String toString() {

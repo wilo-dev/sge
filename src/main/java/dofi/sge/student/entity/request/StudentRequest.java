@@ -34,9 +34,13 @@ public class StudentRequest {
 
     private Set<QuimestreEntity> quimestres;
 
-    private CoursesEntity courseId;
+    private Long courseId;
 
-    private ParaleloEntity paraleloId;
+    private Long paraleloId;
+
+    //    private CoursesEntity courseId;
+//
+//    private ParaleloEntity paraleloId;
 
 
 }
