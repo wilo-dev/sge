@@ -1,9 +1,11 @@
 package dofi.sge.student.service;
 
 import dofi.sge.student.entity.model.ParcialEntity;
+import dofi.sge.student.entity.model.QuimestreEntity;
 import dofi.sge.student.entity.request.ParcialRequest;
 import dofi.sge.student.entity.response.ParcialResponse;
 import dofi.sge.student.repository.ParcialRepository;
+import dofi.sge.student.repository.QuimestreRepository;
 import dofi.sge.util.entity.OutputEntity;
 import dofi.sge.util.enums.MessageEnum;
 import dofi.sge.util.enums.MessageParcial;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,6 +27,9 @@ public class ParcialesService {
 
     @Autowired
     private QuimestreService quimestreService;
+
+    @Autowired
+    private QuimestreRepository quimestreRepository;
 
 
     public OutputEntity<List<ParcialResponse>> getAllParciales() {
@@ -48,14 +54,8 @@ public class ParcialesService {
         log.info("datos parcial: , {}", data);
         OutputEntity<String> outPut = new OutputEntity<>();
         try {
-            if (data.getNameParcial().trim().isEmpty()) {
-                throw new MyException(MessageEnum.NO_Empty_fields.getCode(), MessageEnum.NO_Empty_fields.getMensaje());
-            }
-            List<ParcialEntity> parcial = parcialRepository.findByParcial(data.getNameParcial());
-            if (!parcial.isEmpty()) {
-                throw new MyException(MessageParcial.PARCIAL_UNIQUE.getCode(), MessageParcial.PARCIAL_UNIQUE.getMensaje());
-            }
-            ParcialEntity parcialEntity = new ParcialEntity(data);
+            Optional<QuimestreEntity> existQuimestreById = quimestreRepository.findById(data.getQuimestreId());
+            ParcialEntity parcialEntity = getParcialEntity(data, existQuimestreById);
             saveOrUpdateParcial(parcialEntity);
 //            parcialRepository.save(parcialEntity);
             return outPut.ok(MessageEnum.CREATE.getCode(), MessageEnum.CREATE.getMensaje(), null);
@@ -66,6 +66,22 @@ public class ParcialesService {
             log.error(e.getMessage(), e.getLocalizedMessage());
             return outPut.error();
         }
+    }
+
+    private static ParcialEntity getParcialEntity(ParcialRequest data, Optional<QuimestreEntity> existQuimestreById) throws MyException {
+        if (existQuimestreById.isEmpty())
+            throw new MyException(404, "El Quimestre con el ID especificado no existe");
+
+        if (data.getNameParcial().trim().isEmpty()) {
+            throw new MyException(MessageEnum.NO_Empty_fields.getCode(), MessageEnum.NO_Empty_fields.getMensaje());
+        }
+//            List<ParcialEntity> parcial = parcialRepository.findByParcial(data.getNameParcial());
+//            if (!parcial.isEmpty()) {
+//                throw new MyException(MessageParcial.PARCIAL_UNIQUE.getCode(), MessageParcial.PARCIAL_UNIQUE.getMensaje());
+//            }
+
+        QuimestreEntity quimestreId = existQuimestreById.get();
+        return new ParcialEntity(data, quimestreId);
     }
 
     public ParcialEntity saveOrUpdateParcial(ParcialEntity parcial) {

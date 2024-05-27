@@ -33,22 +33,25 @@ public class QuimestreEntity extends AuditableEntity {
     @Column(name = "promedio_quimestral")
     private Double promedioQuimestral;
 
-    public QuimestreEntity(QuimestreRequest data) {
+    public QuimestreEntity(QuimestreRequest data, StudentEntity studentId) {
         this.quimestre = data.getQuimestre();
-        this.studentId = data.getStudentId();
+        this.studentId = studentId;
+//        this.studentId = data.getStudentId();
         if (data.getParciales() != null) {
             this.parciales = data.getParciales();
             this.promedioQuimestral = calcularPromedioQuimestral();
         }
     }
 
-    public void updateDataQuimestre(QuimestreRequest data) {
+    public void updateDataQuimestre(QuimestreRequest data, StudentEntity studentId) {
         this.quimestre = data.getQuimestre();
-        this.studentId = data.getStudentId();
+        this.studentId = studentId;
+//        this.studentId = data.getStudentId();
         if (data.getParciales() != null) {
             this.parciales = data.getParciales();
             this.promedioQuimestral = calcularPromedioQuimestral();
         }
+        this.promedioQuimestral = calcularPromedioQuimestral();
         this.setUpdatedAt(new Date());
     }
 
@@ -60,10 +63,10 @@ public class QuimestreEntity extends AuditableEntity {
                 .orElse(0.0);
     }
 
-    public void setParciales(Set<ParcialEntity> parciales) {
-        this.parciales = parciales;
-        this.promedioQuimestral = calcularPromedioQuimestral();
-    }
+//    public void setParciales(Set<ParcialEntity> parciales) {
+//        this.parciales = parciales;
+//        this.promedioQuimestral = calcularPromedioQuimestral();
+//    }
 
     @Override
     public String toString() {

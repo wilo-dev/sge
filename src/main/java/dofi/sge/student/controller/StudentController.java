@@ -129,58 +129,6 @@ public class StudentController {
         }
     }
 
-    //    @GetMapping
-//    public ResponseEntity<OutputEntity<List<StudentResponse>>> getAllEnableStudent() {
-//        OutputEntity<List<StudentResponse>> out = null;
-//        try {
-//            out = studentService.getAllEnableStudent();
-//            return new ResponseEntity<>(out, out.getCode());
-//        } catch (Exception e) {
-//            log.error(e.getMessage());
-//            out = new OutputEntity<List<StudentResponse>>().error();
-//            return new ResponseEntity<>(out, out.getCode());
-//        }
-//    }
-
-//    @GetMapping("/disabled")
-//    public ResponseEntity<OutputEntity<List<StudentResponse>>> getAllDisabledStudent() {
-//        OutputEntity<List<StudentResponse>> out = null;
-//        try {
-//            out = studentService.getAllDisabledStudent();
-//            return new ResponseEntity<>(out, out.getCode());
-//        } catch (Exception e) {
-//            log.error(e.getMessage());
-//            out = new OutputEntity<List<StudentResponse>>().error();
-//            return new ResponseEntity<>(out, out.getCode());
-//        }
-//    }
-
-//    @PostMapping
-//    public ResponseEntity<OutputEntity<String>> createStudent(@RequestBody String jsonData) {
-//        OutputEntity<String> out = new OutputEntity<>();
-//
-//        try {
-//            // Intenta convertir el JSON en objeto StudentRequest
-//            StudentRequest data = new ObjectMapper().readValue(jsonData, StudentRequest.class);
-//            out = studentService.createStudent(data);
-//            return new ResponseEntity<>(out, out.getCode());
-//        } catch (Exception e) {
-//            if (e.getCause() instanceof JsonParseException || e.getCause() instanceof JsonMappingException) {
-////                 Manejo de error de sintaxis JSON incorrecta
-//                out.error(MessageEnum.SYNTAX_JSON_INVALID.getCode(),
-//                        new ArrayList<>(Arrays.asList(MessageEnum.SYNTAX_JSON_INVALID.getMensaje())),
-//                        null);
-//                return new ResponseEntity<>(out, out.getCode());
-//            } else {
-//                // Manejo de otros errores
-//                out.error(MessageEnum.SYNTAX_JSON_INVALID.getCode(),
-//                        new ArrayList<>(Arrays.asList(MessageEnum.SYNTAX_JSON_INVALID.getMensaje())),
-//                        null);
-//                return new ResponseEntity<>(out, out.getCode());
-//            }
-////        }
-//    }
-
 }
 
 

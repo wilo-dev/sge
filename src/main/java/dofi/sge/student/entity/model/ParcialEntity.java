@@ -38,9 +38,9 @@ public class ParcialEntity extends AuditableEntity {
     @Column(name = "promedio_parcial")
     private Double promedioParcial;
 
-    public ParcialEntity(ParcialRequest data) {
+    public ParcialEntity(ParcialRequest data, QuimestreEntity quimestreId) {
         this.parcial = data.getNameParcial();
-        this.quimestreId = data.getQuimestreId();
+        this.quimestreId = quimestreId;
         if (data.getNotas() != null) {
             this.notas = data.getNotas();
             this.promedioParcial = calcularPromedioParcial();
@@ -49,7 +49,7 @@ public class ParcialEntity extends AuditableEntity {
 
     public void updateDataParcial(ParcialRequest data) {
         this.parcial = data.getNameParcial();
-        this.quimestreId = data.getQuimestreId();
+        this.quimestreId = quimestreId;
         if (data.getNotas() != null) {
             this.notas = data.getNotas();
             this.promedioParcial = calcularPromedioParcial();
@@ -67,10 +67,10 @@ public class ParcialEntity extends AuditableEntity {
         return resp;
     }
 
-    public void setNotas(Set<NotasEntity> notas) {
-        this.notas = notas;
-        this.promedioParcial = calcularPromedioParcial();
-    }
+//    public void setNotas(Set<NotasEntity> notas) {
+//        this.notas = notas;
+//        this.promedioParcial = calcularPromedioParcial();
+//    }
 
     @Override
     public String toString() {

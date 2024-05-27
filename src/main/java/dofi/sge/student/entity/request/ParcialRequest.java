@@ -17,7 +17,8 @@ public class ParcialRequest {
 
     private String nameParcial;
     private Boolean status;
-    private QuimestreEntity quimestreId;
+    private Long quimestreId;
+    //    private QuimestreEntity quimestreId;
     private Set<NotasEntity> notas = new HashSet<>();
 
 

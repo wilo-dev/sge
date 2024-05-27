@@ -1,10 +1,7 @@
 package dofi.sge.student.controller;
 
-import dofi.sge.student.entity.request.CourseRequest;
 import dofi.sge.student.entity.request.NotasRequest;
-import dofi.sge.student.entity.response.CourseResponse;
 import dofi.sge.student.entity.response.NotasResponse;
-import dofi.sge.student.service.CourseService;
 import dofi.sge.student.service.NotaService;
 import dofi.sge.util.entity.OutputEntity;
 import jakarta.validation.Valid;

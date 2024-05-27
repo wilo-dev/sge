@@ -1,9 +1,11 @@
 package dofi.sge.student.service;
 
 import dofi.sge.student.entity.model.QuimestreEntity;
+import dofi.sge.student.entity.model.StudentEntity;
 import dofi.sge.student.entity.request.QuimestreRequest;
 import dofi.sge.student.entity.response.QuimestreResponse;
 import dofi.sge.student.repository.QuimestreRepository;
+import dofi.sge.student.repository.StudentRepository;
 import dofi.sge.util.entity.OutputEntity;
 import dofi.sge.util.enums.MessageEnum;
 import dofi.sge.util.enums.MessageQuimestre;
@@ -22,6 +24,9 @@ public class QuimestreService {
 
     @Autowired
     private QuimestreRepository quimestreRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     public OutputEntity<List<QuimestreResponse>> getAllQuimestres() {
         OutputEntity<List<QuimestreResponse>> outPut = new OutputEntity<>();
@@ -44,14 +49,21 @@ public class QuimestreService {
     public OutputEntity<String> createQuimestre(QuimestreRequest data) {
         OutputEntity<String> outPut = new OutputEntity<>();
         try {
+            Optional<StudentEntity> existStudentById = studentRepository.findById(data.getStudentId());
+            if (existStudentById.isEmpty()) {
+                throw new MyException(404, "El estudiante con el ID especificado no existe");
+            }
+
             if (data.getQuimestre().trim().isEmpty()) {
                 throw new MyException(MessageEnum.NO_Empty_fields.getCode(), MessageEnum.NO_Empty_fields.getMensaje());
             }
-            List<QuimestreEntity> quimestre = quimestreRepository.findByQuimestre(data.getQuimestre());
-            if (!quimestre.isEmpty()) {
-                throw new MyException(MessageQuimestre.QUIMESTRE_UNIQUE.getCode(), MessageQuimestre.QUIMESTRE_UNIQUE.getMensaje());
-            }
-            QuimestreEntity quimestreEntity = new QuimestreEntity(data);
+//            List<QuimestreEntity> quimestre = quimestreRepository.findByQuimestre(data.getQuimestre());
+//            if (!quimestre.isEmpty()) {
+//                throw new MyException(MessageQuimestre.QUIMESTRE_UNIQUE.getCode(), MessageQuimestre.QUIMESTRE_UNIQUE.getMensaje());
+//            }
+
+            StudentEntity studentId = existStudentById.get();
+            QuimestreEntity quimestreEntity = new QuimestreEntity(data, studentId);
             saveOrUpdateQuimestre(quimestreEntity);
             return outPut.ok(MessageEnum.CREATE.getCode(), MessageEnum.CREATE.getMensaje(), null);
         } catch (MyException e) {
