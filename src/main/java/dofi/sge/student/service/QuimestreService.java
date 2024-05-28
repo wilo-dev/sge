@@ -1,14 +1,15 @@
 package dofi.sge.student.service;
 
 import dofi.sge.student.entity.model.QuimestreEntity;
+import dofi.sge.student.entity.model.QuimestreItemEntity;
 import dofi.sge.student.entity.model.StudentEntity;
 import dofi.sge.student.entity.request.QuimestreRequest;
 import dofi.sge.student.entity.response.QuimestreResponse;
+import dofi.sge.student.repository.QuimestreItemRepository;
 import dofi.sge.student.repository.QuimestreRepository;
 import dofi.sge.student.repository.StudentRepository;
 import dofi.sge.util.entity.OutputEntity;
 import dofi.sge.util.enums.MessageEnum;
-import dofi.sge.util.enums.MessageQuimestre;
 import dofi.sge.util.exception.MyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,17 @@ public class QuimestreService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private QuimestreItemRepository itemRepository;
+
     public OutputEntity<List<QuimestreResponse>> getAllQuimestres() {
         OutputEntity<List<QuimestreResponse>> outPut = new OutputEntity<>();
         try {
-            List<QuimestreEntity> courseEntities = quimestreRepository.findAll();
-            if (courseEntities.isEmpty()) {
+            List<QuimestreEntity> quimestreEntities = quimestreRepository.findAll();
+            if (quimestreEntities.isEmpty()) {
                 throw new MyException(MessageEnum.IS_EMPTY.getCode(), MessageEnum.IS_EMPTY.getMensaje());
             }
-            List<QuimestreResponse> quimestreResponses = courseEntities.stream().map(QuimestreResponse::new).collect(Collectors.toList());
+            List<QuimestreResponse> quimestreResponses = quimestreEntities.stream().map(QuimestreResponse::new).collect(Collectors.toList());
             return outPut.ok(MessageEnum.OK.getCode(), MessageEnum.OK.getMensaje(), quimestreResponses);
         } catch (MyException e) {
             log.error("Error de acceso a datos: ", e);
@@ -50,8 +54,14 @@ public class QuimestreService {
         OutputEntity<String> outPut = new OutputEntity<>();
         try {
             Optional<StudentEntity> existStudentById = studentRepository.findById(data.getStudentId());
+            Optional<QuimestreItemEntity> existItemQId = itemRepository.findById(data.getStudentId());
+
             if (existStudentById.isEmpty()) {
                 throw new MyException(404, "El estudiante con el ID especificado no existe");
+            }
+
+            if (existItemQId.isEmpty()) {
+                throw new MyException(MessageEnum.ITEM_UNIQUE.getCode(), MessageEnum.ITEM_UNIQUE.getMensaje());
             }
 
             if (data.getQuimestre().trim().isEmpty()) {
@@ -63,8 +73,14 @@ public class QuimestreService {
 //            }
 
             StudentEntity studentId = existStudentById.get();
-            QuimestreEntity quimestreEntity = new QuimestreEntity(data, studentId);
+            QuimestreItemEntity itemQuimestreId = existItemQId.get();
+            QuimestreEntity quimestreEntity = new QuimestreEntity(data, studentId, itemQuimestreId);
             saveOrUpdateQuimestre(quimestreEntity);
+
+            // TODO: Actualizar el promedio anual del estudiante
+            StudentEntity student = quimestreEntity.getStudentId();
+            student.actualizarPromedioAnual();
+            studentRepository.save(student);
             return outPut.ok(MessageEnum.CREATE.getCode(), MessageEnum.CREATE.getMensaje(), null);
         } catch (MyException e) {
             log.error("Error de acceso a datos: ", e);
@@ -75,9 +91,9 @@ public class QuimestreService {
         }
     }
 
-    public QuimestreEntity saveOrUpdateQuimestre(QuimestreEntity quimestre) {
+    public void saveOrUpdateQuimestre(QuimestreEntity quimestre) {
         quimestre.setPromedioQuimestral(quimestre.calcularPromedioQuimestral());
-        return quimestreRepository.save(quimestre);
+        quimestreRepository.save(quimestre);
     }
 
     public void actualizarPromedioQuimestral(Long quimestreId) {
@@ -86,6 +102,11 @@ public class QuimestreService {
             QuimestreEntity quimestre = quimestreOp.get();
             quimestre.setPromedioQuimestral(quimestre.calcularPromedioQuimestral());
             quimestreRepository.save(quimestre);
+
+            // TODO: actualizar el promedio anul del estudiante
+            StudentEntity student = quimestre.getStudentId();
+            student.actualizarPromedioAnual();
+            studentRepository.save(student);
         }
     }
 }

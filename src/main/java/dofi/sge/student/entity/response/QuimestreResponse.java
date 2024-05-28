@@ -11,19 +11,17 @@ public class QuimestreResponse {
 
     private Long id;
 
-    private String quimestre;
+    // json infinito
+    private String nameQuimestre;
 
     private Double promedioQuimestral;
 
     private Set<ParcialResponse> parciales;
 
-    //    private StudentResponse student;
-
-
     public QuimestreResponse(QuimestreEntity resp) {
         this.id = resp.getId();
-        this.quimestre = resp.getQuimestre();
-        this.promedioQuimestral = resp.getPromedioQuimestral();
+        this.nameQuimestre = resp.getItemQuimestreId().getNameQuimestre();
         this.parciales = resp.getParciales().stream().map(ParcialResponse::new).collect(Collectors.toSet());
+        this.promedioQuimestral = resp.getPromedioQuimestral();
     }
 }

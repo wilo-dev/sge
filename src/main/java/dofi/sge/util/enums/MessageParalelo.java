@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum MessageParalelo {
-    PARALELO_UNIQUE("Ya existe ese paralelo", 403);
+    PARALELO_UNIQUE("Ya existe ese paralelo, escriba otro", 403);
 
     private String mensaje;
     private Integer code;

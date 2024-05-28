@@ -3,7 +3,10 @@ package dofi.sge.student.entity.model;
 import dofi.sge.student.entity.request.StudentRequest;
 import dofi.sge.util.entity.AuditableEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -30,9 +33,6 @@ public class StudentEntity extends AuditableEntity {
     @Column(length = 50)
     private String code;
 
-//    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-//    private List<NotasEntity> notas;
-
     @OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL)
     private Set<QuimestreEntity> quimestres;
 
@@ -46,7 +46,9 @@ public class StudentEntity extends AuditableEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private ParaleloEntity paraleloId;
 
-    //    request es lo que envio del boby de postman
+    @Column(name = "promedio_anual")
+    private Double promedioAnual;
+
     public StudentEntity(StudentRequest data, CoursesEntity courseId, ParaleloEntity paraleloId) {
         this.firstName = data.getFirstName();
         this.lastName = data.getLastName();
@@ -54,9 +56,7 @@ public class StudentEntity extends AuditableEntity {
         this.code = data.getCode();
         this.courseId = courseId;
         this.paraleloId = paraleloId;
-//        this.courseId = data.getCourseId();
-//        this.paraleloId = data.getParaleloId();
-//        this.setStatus(true);
+        this.promedioAnual = data.getPromedioAnual();
     }
 
     public void updateData(StudentRequest data, CoursesEntity courseId, ParaleloEntity paraleloId) {
@@ -65,14 +65,28 @@ public class StudentEntity extends AuditableEntity {
         this.email = data.getEmail();
         this.courseId = courseId;
         this.paraleloId = paraleloId;
-//        this.courseId = data.getCourseId();
-//        this.paraleloId = data.getParaleloId();
+        this.promedioAnual = data.getPromedioAnual();
         this.setUpdatedAt(new Date());
     }
 
     public void updateDataStatus(boolean status) {
         this.setStatus(status);
         this.setUpdatedAt(new Date());
+    }
+
+    @Transient
+    public Double CalcularPromedioAnual() {
+        if (quimestres == null || quimestres.size() < 2) {
+            return 0.0;
+        }
+        return quimestres.stream()
+                .mapToDouble(QuimestreEntity::getPromedioQuimestral)
+                .average()
+                .orElse(0.0);
+    }
+
+    public void actualizarPromedioAnual() {
+        this.promedioAnual = CalcularPromedioAnual();
     }
 
     @Override

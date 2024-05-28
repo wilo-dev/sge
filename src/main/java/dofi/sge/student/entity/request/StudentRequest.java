@@ -30,19 +30,13 @@ public class StudentRequest {
 
     private Boolean status;
 
-    //    private List<NotasEntity> notas;
-
     private Set<QuimestreEntity> quimestres;
 
     private Long courseId;
 
     private Long paraleloId;
 
-    //    private CoursesEntity courseId;
-//
-//    private ParaleloEntity paraleloId;
-
-
+    private Double promedioAnual;
 }
 
 //TODO: request lo q se envia por el body de postman

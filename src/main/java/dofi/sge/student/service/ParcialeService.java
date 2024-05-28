@@ -1,14 +1,15 @@
 package dofi.sge.student.service;
 
 import dofi.sge.student.entity.model.ParcialEntity;
+import dofi.sge.student.entity.model.ParcialItemEntity;
 import dofi.sge.student.entity.model.QuimestreEntity;
 import dofi.sge.student.entity.request.ParcialRequest;
 import dofi.sge.student.entity.response.ParcialResponse;
+import dofi.sge.student.repository.ParcialItemRepository;
 import dofi.sge.student.repository.ParcialRepository;
 import dofi.sge.student.repository.QuimestreRepository;
 import dofi.sge.util.entity.OutputEntity;
 import dofi.sge.util.enums.MessageEnum;
-import dofi.sge.util.enums.MessageParcial;
 import dofi.sge.util.exception.MyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class ParcialesService {
+public class ParcialeService {
 
     @Autowired
     private ParcialRepository parcialRepository;
@@ -30,6 +31,9 @@ public class ParcialesService {
 
     @Autowired
     private QuimestreRepository quimestreRepository;
+
+    @Autowired
+    private ParcialItemRepository itemRepository;
 
 
     public OutputEntity<List<ParcialResponse>> getAllParciales() {
@@ -51,13 +55,12 @@ public class ParcialesService {
     }
 
     public OutputEntity<String> createParciales(ParcialRequest data) {
-        log.info("datos parcial: , {}", data);
         OutputEntity<String> outPut = new OutputEntity<>();
         try {
             Optional<QuimestreEntity> existQuimestreById = quimestreRepository.findById(data.getQuimestreId());
-            ParcialEntity parcialEntity = getParcialEntity(data, existQuimestreById);
+            Optional<ParcialItemEntity> existItemId = itemRepository.findById(data.getQuimestreId());
+            ParcialEntity parcialEntity = getParcialEntity(data, existQuimestreById, existItemId);
             saveOrUpdateParcial(parcialEntity);
-//            parcialRepository.save(parcialEntity);
             return outPut.ok(MessageEnum.CREATE.getCode(), MessageEnum.CREATE.getMensaje(), null);
         } catch (MyException e) {
             log.error(e.getMessage());
@@ -68,28 +71,28 @@ public class ParcialesService {
         }
     }
 
-    private static ParcialEntity getParcialEntity(ParcialRequest data, Optional<QuimestreEntity> existQuimestreById) throws MyException {
+    private static ParcialEntity getParcialEntity(ParcialRequest data, Optional<QuimestreEntity> existQuimestreById, Optional<ParcialItemEntity> existItemId) throws MyException {
         if (existQuimestreById.isEmpty())
             throw new MyException(404, "El Quimestre con el ID especificado no existe");
+
+        if (existItemId.isEmpty())
+            throw new MyException(MessageEnum.ITEM_UNIQUE.getCode(), MessageEnum.ITEM_UNIQUE.getMensaje());
+
 
         if (data.getNameParcial().trim().isEmpty()) {
             throw new MyException(MessageEnum.NO_Empty_fields.getCode(), MessageEnum.NO_Empty_fields.getMensaje());
         }
-//            List<ParcialEntity> parcial = parcialRepository.findByParcial(data.getNameParcial());
-//            if (!parcial.isEmpty()) {
-//                throw new MyException(MessageParcial.PARCIAL_UNIQUE.getCode(), MessageParcial.PARCIAL_UNIQUE.getMensaje());
-//            }
 
         QuimestreEntity quimestreId = existQuimestreById.get();
-        return new ParcialEntity(data, quimestreId);
+        ParcialItemEntity itemParcialId = existItemId.get();
+        return new ParcialEntity(data, quimestreId, itemParcialId);
     }
 
-    public ParcialEntity saveOrUpdateParcial(ParcialEntity parcial) {
+    public void saveOrUpdateParcial(ParcialEntity parcial) {
         log.info("parcialEntity, {}", parcial);
         parcial.setPromedioParcial(parcial.calcularPromedioParcial());
         ParcialEntity saveParcial = parcialRepository.save(parcial);
         quimestreService.actualizarPromedioQuimestral(parcial.getQuimestreId().getId());
-        return saveParcial;
 
 //        ParcialEntity saveParcial = parcialRepository.save(parcial);
 //        saveParcial.setPromedioParcial(saveParcial.calcularPromedioParcial());

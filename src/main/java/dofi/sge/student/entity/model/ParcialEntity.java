@@ -24,8 +24,10 @@ import java.util.Set;
 @Table(name = "parciales")
 public class ParcialEntity extends AuditableEntity {
 
-    @Column(name = "name_parcial", length = 20)
-    private String parcial;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_parcial_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private ParcialItemEntity itemParcialId;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "quimestre_id")
@@ -38,8 +40,8 @@ public class ParcialEntity extends AuditableEntity {
     @Column(name = "promedio_parcial")
     private Double promedioParcial;
 
-    public ParcialEntity(ParcialRequest data, QuimestreEntity quimestreId) {
-        this.parcial = data.getNameParcial();
+    public ParcialEntity(ParcialRequest data, QuimestreEntity quimestreId, ParcialItemEntity itemParcialId) {
+        this.itemParcialId = itemParcialId;
         this.quimestreId = quimestreId;
         if (data.getNotas() != null) {
             this.notas = data.getNotas();
@@ -47,8 +49,8 @@ public class ParcialEntity extends AuditableEntity {
         }
     }
 
-    public void updateDataParcial(ParcialRequest data) {
-        this.parcial = data.getNameParcial();
+    public void updateDataParcial(ParcialRequest data, QuimestreEntity quimestreId, ParcialItemEntity itemParcialId) {
+        this.itemParcialId = itemParcialId;
         this.quimestreId = quimestreId;
         if (data.getNotas() != null) {
             this.notas = data.getNotas();
@@ -67,15 +69,10 @@ public class ParcialEntity extends AuditableEntity {
         return resp;
     }
 
-//    public void setNotas(Set<NotasEntity> notas) {
-//        this.notas = notas;
-//        this.promedioParcial = calcularPromedioParcial();
-//    }
-
     @Override
     public String toString() {
         return "ParcialEntity{" +
-                "parcial='" + parcial + '\'' +
+                "itemParcialId='" + itemParcialId + '\'' +
                 ", quimestreId=" + quimestreId +
                 ", notas=" + notas +
                 ", promedioParcial=" + promedioParcial +

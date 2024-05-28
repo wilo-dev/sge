@@ -21,7 +21,7 @@ import java.util.Set;
 @Table(name = "courses")
 public class CoursesEntity extends AuditableEntity {
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 10)
     private String course;
 
     @OneToMany(mappedBy = "courseId", cascade = CascadeType.ALL)

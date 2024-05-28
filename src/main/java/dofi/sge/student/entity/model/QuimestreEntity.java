@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -20,11 +22,14 @@ import java.util.Set;
 @Table(name = "quimestres")
 public class QuimestreEntity extends AuditableEntity {
 
-    @Column(name = "nombre_quimestre", nullable = false, length = 20)
-    private String quimestre;
-
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_quimestre_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private QuimestreItemEntity itemQuimestreId;
+    
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private StudentEntity studentId;
 
     @OneToMany(mappedBy = "quimestreId", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -33,20 +38,18 @@ public class QuimestreEntity extends AuditableEntity {
     @Column(name = "promedio_quimestral")
     private Double promedioQuimestral;
 
-    public QuimestreEntity(QuimestreRequest data, StudentEntity studentId) {
-        this.quimestre = data.getQuimestre();
+    public QuimestreEntity(QuimestreRequest data, StudentEntity studentId, QuimestreItemEntity itemQuimestreId) {
+        this.itemQuimestreId = itemQuimestreId;
         this.studentId = studentId;
-//        this.studentId = data.getStudentId();
         if (data.getParciales() != null) {
             this.parciales = data.getParciales();
             this.promedioQuimestral = calcularPromedioQuimestral();
         }
     }
 
-    public void updateDataQuimestre(QuimestreRequest data, StudentEntity studentId) {
-        this.quimestre = data.getQuimestre();
+    public void updateDataQuimestre(QuimestreRequest data, StudentEntity studentId, QuimestreItemEntity itemQuimestreId) {
+        this.itemQuimestreId = itemQuimestreId;
         this.studentId = studentId;
-//        this.studentId = data.getStudentId();
         if (data.getParciales() != null) {
             this.parciales = data.getParciales();
             this.promedioQuimestral = calcularPromedioQuimestral();
@@ -63,17 +66,14 @@ public class QuimestreEntity extends AuditableEntity {
                 .orElse(0.0);
     }
 
-//    public void setParciales(Set<ParcialEntity> parciales) {
-//        this.parciales = parciales;
-//        this.promedioQuimestral = calcularPromedioQuimestral();
-//    }
-
     @Override
     public String toString() {
         return "QuimestreEntity{" +
-                "nameQuimestre='" + quimestre + '\'' +
+                "itemQuimestreId=" + itemQuimestreId +
                 ", studentId=" + studentId +
                 ", parciales=" + parciales +
+                ", promedioQuimestral=" + promedioQuimestral +
                 '}';
     }
+
 }

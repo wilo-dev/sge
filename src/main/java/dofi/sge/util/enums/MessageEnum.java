@@ -17,6 +17,7 @@ public enum MessageEnum {
     USERNAME_UNICO("Ya existe ese usuario, ingrese otro", 403),
     CORREO_UNICO("Correo ya existe, intente otro", 403),
     UPPER_CASE("Ingrese el Nombre en mayúscula.", 403),
+    ITEM_UNIQUE("Ya existe este item, intente otro nombre", 403),
     NOT_ENCRYPT("Hubo un conflicto", 409),
     INTERNAL_ERROR("Problema en la transacción", 500);
 

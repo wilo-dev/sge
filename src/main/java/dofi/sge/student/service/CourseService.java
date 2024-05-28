@@ -46,7 +46,6 @@ public class CourseService {
     public OutputEntity<String> createCourse(CourseRequest data) {
         OutputEntity<String> outPut = new OutputEntity<>();
         List<CoursesEntity> course = courseRepository.findByCourse(data.getCourse());
-        log.info(data.toString());
         try {
             if (data.getCourse().trim().isEmpty()) {
                 throw new MyException(MessageEnum.NO_Empty_fields.getCode(), MessageEnum.NO_Empty_fields.getMensaje());

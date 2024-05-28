@@ -43,6 +43,7 @@ public class StudentService {
             if (studentEntities.isEmpty()) {
                 throw new MyException(MessageEnum.IS_EMPTY.getCode(), MessageEnum.IS_EMPTY.getMensaje());
             }
+//            List<StudentResponse> studentResponses = studentEntities.stream().map(entity -> modelMapper.map(entity, StudentRequest.class)).collect(Collectors.toList());
             List<StudentResponse> studentResponses = studentEntities.stream().map(StudentResponse::new).collect(Collectors.toList());
             return outPut.ok(MessageEnum.OK.getCode(), MessageEnum.OK.getMensaje(), studentResponses);
         } catch (MyException e) {
